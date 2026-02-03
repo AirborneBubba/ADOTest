@@ -47,7 +47,7 @@
      if (!esBootstrapLoaded) {
        const s = document.createElement('script');
        // IMPORTANT: This is the Embedded Messaging bootstrap served from your Experience Cloud site
-       s.src = SITE_URL + '/assets/js/embeddedservice_bootstrap.js';
+       s.src = SITE_URL + '/assets/js/bootstrap.min.js';
        s.onload = () => {
          esBootstrapLoaded = true;
          initEmbeddedMessaging();
