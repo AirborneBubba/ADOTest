@@ -1,116 +1,117 @@
+
 <html>
- <head>
- <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
- <style type="text/css">
-   body { overflow: scroll; }
-   .embeddedServiceSidebar.layout-docked .dockableContainer {
-     display: inline-block;
-     text-align: center;
-     width: 100%;
-   }
-   .red-button { background-color: rgb(218,41,28); color: #fff; border: none; }
- </style>
- </head>
- <body>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  <style type="text/css">
+    body { overflow: scroll; }
+    .embeddedServiceSidebar.layout-docked .dockableContainer {
+      display: inline-block;
+      text-align: center;
+      width: 100%;
+    }
+    .red-button { background-color: rgb(218,41,28); color: #fff; border: none; }
+  </style>
+</head>
+<body>
 
- <center>
-   <button onclick="bootstrapChat()" class="btn red-button">
-     <b>Click to Start Chat</b>
-   </button>
- </center>
+  <center>
+    <button onclick="bootstrapChat()" class="btn red-button">
+      <b>Click to Start Chat</b>
+    </button>
+  </center>
 
- <!-- Status (optional) -->
- <div id="statusMsg" style="text-align:center; margin-top:8px; font-size:0.9rem; color:#666;"></div>
+  <!-- Status (optional) -->
+  <div id="statusMsg" style="text-align:center; margin-top:8px; font-size:0.9rem; color:#666;"></div>
 
- <script>
-   // --- New Embedded Messaging constants ---
-   const ORG_ID    = '00DcZ0000048WGX';
-   const DEPLOYMENT = 'ADO_Test';
-   const SITE_URL  = 'https://adeccogroup--enhchatdev.sandbox.my.site.com/ESWADOTest1770152920814';
-   const SCRT2_URL = 'https://adeccogroup--enhchatdev.sandbox.my.salesforce-scrt.com';
+  <script>
+    // --- New Embedded Messaging constants ---
+    const ORG_ID     = '00DcZ0000048WGX';
+    const DEPLOYMENT = 'ADOTest';
+    const SITE_URL = 'https://adeccogroup--enhchatdev.sandbox.my.site.com/ESWADOTest1770238010578';
+    const SCRT2_URL  = 'https://adeccogroup--enhchatdev.sandbox.my.salesforce-scrt.com';
 
-   let esBootstrapLoaded = false;
-   let esInitialized = false;
+    let esBootstrapLoaded = false;
+    let esInitialized = false;
 
-   function setStatus(msg) {
-     const el = document.getElementById('statusMsg');
-     if (el) el.textContent = msg || '';
-   }
+    function setStatus(msg) {
+      const el = document.getElementById('statusMsg');
+      if (el) el.textContent = msg || '';
+    }
 
-   // Called by your button
-   function bootstrapChat() {
-     console.log('Inside Start Chat');
-     setStatus('Loading chat...');
+    // Called by your button
+    function bootstrapChat() {
+      console.log('Inside Start Chat');
+      setStatus('Loading chat...');
 
-     // Load the Embedded Messaging bootstrap if not loaded yet
-     if (!esBootstrapLoaded) {
-       const s = document.createElement('script');
-       // IMPORTANT: This is the Embedded Messaging bootstrap served from your Experience Cloud site
-       s.src = SITE_URL + '/assets/js/bootstrap.min.js';
-       s.onload = () => {
-         esBootstrapLoaded = true;
-         initEmbeddedMessaging();
-       };
-       s.onerror = () => setStatus('Failed to load chat assets.');
-       document.body.appendChild(s);
-     } else {
-       initEmbeddedMessaging();
-     }
-   }
+      // Load the Embedded Messaging bootstrap if not loaded yet
+      if (!esBootstrapLoaded) {
+        const s = document.createElement('script');
+        // IMPORTANT: This is the Embedded Messaging bootstrap served from your Experience Cloud site
+        s.src = SITE_URL + '/assets/js/embeddedservice_bootstrap.js';
+        s.onload = () => {
+          esBootstrapLoaded = true;
+          initEmbeddedMessaging();
+        };
+        s.onerror = () => setStatus('Failed to load chat assets.');
+        document.body.appendChild(s);
+      } else {
+        initEmbeddedMessaging();
+      }
+    }
 
-   function initEmbeddedMessaging() {
-     if (esInitialized) {
-       // If already initialized, just attempt to open a chat
-       tryLaunchChat();
-       return;
-     }
+    function initEmbeddedMessaging() {
+      if (esInitialized) {
+        // If already initialized, just attempt to open a chat
+        tryLaunchChat();
+        return;
+      }
 
-     try {
-       // Localize as you wish (e.g., 'en_US', 'fr', etc.)
-       embeddedservice_bootstrap.settings.language = 'en_US';
+      try {
+        // Localize as you wish (e.g., 'en_US', 'fr', etc.)
+        embeddedservice_bootstrap.settings.language = 'en_US';
 
-       // When the Messaging button is created, launch a chat immediately
-       window.addEventListener('onEmbeddedMessagingButtonCreated', () => {
-         console.log('Messaging button ready — launching chat');
-         tryLaunchChat();
-       });
+        // When the Messaging button is created, launch a chat immediately
+        window.addEventListener('onEmbeddedMessagingButtonCreated', () => {
+          console.log('Messaging button ready â€” launching chat');
+          tryLaunchChat();
+        });
 
-       // Initialize Embedded Messaging
-       embeddedservice_bootstrap.init(
-         ORG_ID,
-         DEPLOYMENT,
-         SITE_URL,
-         { scrt2URL: SCRT2_URL }
-       );
+        // Initialize Embedded Messaging
+        embeddedservice_bootstrap.init(
+          ORG_ID,
+          DEPLOYMENT,
+          SITE_URL,
+          { scrt2URL: SCRT2_URL }
+        );
 
-       esInitialized = true;
-       setStatus('Connecting...');
-     } catch (e) {
-       console.error(e);
-       setStatus('Error starting chat.');
-     }
-   }
+        esInitialized = true;
+        setStatus('Connecting...');
+      } catch (e) {
+        console.error(e);
+        setStatus('Error starting chat.');
+      }
+    }
 
-   function tryLaunchChat() {
-     if (
-       window.embeddedservice_bootstrap &&
-       embeddedservice_bootstrap.utilAPI &&
-       typeof embeddedservice_bootstrap.utilAPI.launchChat === 'function'
-     ) {
-       embeddedservice_bootstrap.utilAPI.launchChat()
-         .then(() => {
-           console.log('Chat opened');
-           setStatus('');
-         })
-         .catch((err) => {
-           console.warn('launchChat() failed', err);
-           setStatus('Unable to open chat.');
-         });
-     } else {
-       console.log('utilAPI not ready yet; will open when ready.');
-     }
-   }
- </script>
- </body>
- </html>
+    function tryLaunchChat() {
+      if (
+        window.embeddedservice_bootstrap &&
+        embeddedservice_bootstrap.utilAPI &&
+        typeof embeddedservice_bootstrap.utilAPI.launchChat === 'function'
+      ) {
+        embeddedservice_bootstrap.utilAPI.launchChat()
+          .then(() => {
+            console.log('Chat opened');
+            setStatus('');
+          })
+          .catch((err) => {
+            console.warn('launchChat() failed', err);
+            setStatus('Unable to open chat.');
+          });
+      } else {
+        console.log('utilAPI not ready yet; will open when ready.');
+      }
+    }
+  </script>
+</body>
+</html>
