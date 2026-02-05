@@ -27,8 +27,8 @@
   <script>
     // --- New Embedded Messaging constants ---
     const ORG_ID     = '00DcZ0000048WGX';
-    const DEPLOYMENT = 'ADOTest';
-    const SITE_URL = 'https://adeccogroup--enhchatdev.sandbox.my.site.com/ESWADOTest1770238010578';
+    const DEPLOYMENT = 'ADO_QA_TEST';
+    const SITE_URL = 'https://adeccogroup--enhchatdev.sandbox.my.site.com/ESWADOQATEST1770240845998';
     const SCRT2_URL  = 'https://adeccogroup--enhchatdev.sandbox.my.salesforce-scrt.com';
 
     let esBootstrapLoaded = false;
@@ -48,7 +48,7 @@
       if (!esBootstrapLoaded) {
         const s = document.createElement('script');
         // IMPORTANT: This is the Embedded Messaging bootstrap served from your Experience Cloud site
-        s.src = SITE_URL + '/assets/js/embeddedservice_bootstrap.js';
+        s.src = SITE_URL + '/assets/js/bootstrap.min.js';
         s.onload = () => {
           esBootstrapLoaded = true;
           initEmbeddedMessaging();
